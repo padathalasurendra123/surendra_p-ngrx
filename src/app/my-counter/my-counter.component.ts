@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { decrement, increment, reset } from '../counter.actions';
 
 @Component({
   selector: 'app-my-counter',
@@ -8,25 +10,26 @@ import { Observable } from 'rxjs';
 })
 export class MyCounterComponent implements OnInit {
 
-  count$: Observable<number>
-
-  constructor() {
-    // TODO: Connect `this.count$` stream to the current store `count` state
-  }
-  ngOnInit() {
-
+  count$: Observable<number>;
+ 
+  constructor(private store: Store<{ count: number }>) {
+    this.count$ = store.select('count');
   }
 
+  ngOnInit(){
+    
+  }
+ 
   increment() {
-    // TODO: Dispatch an increment action
+    this.store.dispatch(increment());
   }
-
+ 
   decrement() {
-    // TODO: Dispatch a decrement action
+    this.store.dispatch(decrement());
   }
-
+ 
   reset() {
-    // TODO: Dispatch a reset action
+    this.store.dispatch(reset());
   }
 
 }
